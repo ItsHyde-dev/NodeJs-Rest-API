@@ -45,7 +45,12 @@ class VoiceService {
         }
 
         if (queryResult.intent.displayName == 'Show Pokemon') {
-            responseObject['pokemonNumber'] = queryResult.parameters.fields.pokemonNumber.numberValue
+            if (queryResult.parameters.fields.pokemonNumber.numberValue != null) {
+                responseObject['pokemonNumber'] = queryResult.parameters.fields.pokemonNumber.numberValue
+            }
+            if (queryResult.parameters.fields.pokemonName != null) {
+                responseObject['pokemonName'] = queryResult.parameters.fields.pokemonName
+            }
         }
 
         return responseObject
