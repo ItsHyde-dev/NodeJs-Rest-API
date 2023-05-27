@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { BadRequestError } = require('../../../utils/errors')
 
 const userSchema = mongoose.Schema({
     username: {

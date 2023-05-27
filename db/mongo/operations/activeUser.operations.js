@@ -8,7 +8,7 @@ class ActiveUsersOperations {
 
     async createActiveUser(username) {
 
-        //check if the user is active or not 
+        //check if the user is active or not
         const userAlreadyActive = await this.checkActiveUser(username)
 
         let result = userAlreadyActive
@@ -28,6 +28,10 @@ class ActiveUsersOperations {
 
     async checkActiveUser(username) {
         return this.activeUsersModel.exists({ username })
+    }
+
+    async deleteActiveUser(username) {
+        return this.activeUsersModel.deleteOne({ username })
     }
 }
 

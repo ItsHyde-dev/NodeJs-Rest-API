@@ -12,7 +12,7 @@ class UserController {
 
             let { username, password } = req.body
 
-            const result = this.userService.createUser(username, password)
+            const result = await this.userService.createUser(username, password)
 
             return send({
                 message: 'successfully created user', req, res, data: result
@@ -40,7 +40,12 @@ class UserController {
 
     async logout(req, res, next) {
         try {
-            //code to logout    
+            const { username } = req.body.userData
+
+            await this.userService.logout(username)
+            return send({
+                message: 'successfully logged out', req, res
+            })
         } catch (error) {
             console.error(error)
         }

@@ -10,20 +10,7 @@ const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-const port = 8080
-const hostname = '127.0.0.1'
-
-//catch exceptions
-process.on('uncaughtException', function (err) {
-    console.error(err)
-    console.log(err)
-})
-
-//setting up router
-const Router = express.Router()
-app.use(router)
-
-//connect to db
+const port = process.env.PORT || 8080
 
 connectToDb().catch(err => console.error(err))
 async function connectToDb() {
@@ -35,17 +22,23 @@ async function connectToDb() {
     )
 }
 
-app.use(function (err, req, res, next) {
+app.use(router)
+
+app.use(function(err, req, res, next) {
     if (err) {
-        console.error(err)
+        console.error(err.stack)
         return send({
-            statusCode: 200, req, res
+            statusCode: err.statusCode || 500, req, res, err: err.message
         })
     }
 })
 
-app.listen(port, hostname, () => {
-    console.log(`Started server at ${hostname} on port ${port}`)
+process.on('uncaughtException', function(err) {
+    console.error(err.stack)
+})
+
+app.listen(port, () => {
+    console.log(`Started server on port ${port}`)
 })
 
 
