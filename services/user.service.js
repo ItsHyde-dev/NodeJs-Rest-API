@@ -19,7 +19,7 @@ class UserService {
 
         let hashedPassword = await bcrypt.hash(password, salt)
 
-        await userOperations.createUser(username, password)
+        await userOperations.createUser(username, hashedPassword)
         const response = await this.login(username, password)
 
         console.log('create user completed')
